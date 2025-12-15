@@ -1,0 +1,40 @@
+.card {
+  width: 325px;
+  height: 328px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card__title {
+  position: absolute;
+  top: 15px;
+  margin: 0;
+  background-color: #ffffff;
+  opacity: 60%;
+  padding: 2px 12px;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+.card__image {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+  background-color: #e9e9e9;
+  transition: transform 0.25s ease;
+}
+
+.card:hover .card__image {
+  transform: scale(1.03);
+}

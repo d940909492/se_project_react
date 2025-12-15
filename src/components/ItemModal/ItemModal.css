@@ -1,0 +1,75 @@
+.modal {
+  visibility: hidden;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: visibility 0s ease-in-out 0.4s, opacity 0.4s ease-in-out;
+  padding: 0 10px;
+}
+
+.modal_is-opened {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.modal__container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal__close-button {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background-image: url(../../assets/closebtn.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: transparent;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+.modal__close-button:hover {
+  opacity: 0.6;
+}
+
+.modal__image {
+  display: block;
+  width: 100%;
+}
+
+.modal__texts-container {
+  height: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 32px;
+  background-color: #ffffff;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.modal__card-name {
+  margin: 0 0 12px;
+}
+
+.modal__card-weather {
+  margin: 0;
+}

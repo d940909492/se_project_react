@@ -1,0 +1,47 @@
+.header {
+  max-width: 1360px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.header__logo {
+  margin-right: 24px;
+}
+
+.header__datetime {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.header__add-clothes-btn {
+  margin-left: auto;
+  margin-right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.header__add-clothes-btn:hover {
+  opacity: 0.5;
+}
+
+.header__username {
+  margin-right: 20px;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.header__avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
