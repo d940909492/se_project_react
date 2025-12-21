@@ -3,6 +3,7 @@ import WeatherCard from "../WeatherCard/WeatherCard.jsx";
 import ItemCard from "../ItemCard/ItemCard.jsx";
 
 export default function Main({
+  weatherData,
   clothingItems,
   handleOpenModal,
   handleCloseModal,
@@ -10,7 +11,9 @@ export default function Main({
   return (
     <main className="main">
       <WeatherCard />
-      <p className="main__text">Today is 75° F / You may want to wear:</p>
+      <p className="main__text">
+        Today is {weatherData.temp}° F / You may want to wear:
+      </p>
       <ul className="main__cards">
         {clothingItems.map((card) => {
           return (

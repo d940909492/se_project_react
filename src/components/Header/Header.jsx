@@ -2,7 +2,7 @@ import logo from "../../assets/Logo.svg";
 import avatar from "../../assets/avatar.svg";
 import "./Header.css";
 
-export default function Header({ handleOpenAddGarmentModal }) {
+export default function Header({ weatherData, handleOpenAddGarmentModal }) {
   // current date
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleString("en-US", {
@@ -15,7 +15,7 @@ export default function Header({ handleOpenAddGarmentModal }) {
       {/* left side */}
       <img src={logo} alt="WTWR logo" className="header__logo" />
       <time className="header__datetime" dateTime={currentDate.toISOString()}>
-        {formattedDate}, New York
+        {formattedDate}, {weatherData.name}
       </time>
 
       {/* right side */}
