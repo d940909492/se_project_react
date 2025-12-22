@@ -1,0 +1,13 @@
+.weather-filter {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+
+.weather-filter__button {
+  cursor: pointer;
+  border-radius: 10px;
+  width: 56px;
+  text-align: center;
+  background-color: paleturquoise;
+}

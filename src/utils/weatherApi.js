@@ -15,10 +15,24 @@ export function getWeatherData() {
 }
 
 function parseWeatherData(data) {
-  const parseData = {};
+  const parseData = { temp: {} };
   parseData.name = data.name;
-  parseData.temp = Math.round(data.main.temp);
+  parseData.temp.F = Math.round(data.main.temp);
+  parseData.temp.C = Math.round(((data.main.temp - 32) * 5) / 9);
+
+  parseData.weatherType = data.weather[0].main;
+  parseData.sunrise = data.sys.sunrise;
+  parseData.sunset = data.sys.sunset;
+
   return parseData;
 }
 
-export function getWeatherCondition() {}
+export function getWeatherCondition(temperature) {
+  if (temperature >= 86) {
+    return "hot";
+  } else if (temperature >= 66) {
+    return "warm";
+  } else {
+    return "cold";
+  }
+}

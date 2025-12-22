@@ -1,6 +1,7 @@
 import logo from "../../assets/Logo.svg";
 import avatar from "../../assets/avatar.svg";
 import "./Header.css";
+import ToggleSwitch from "../ToggleSwitch/ToggleSwitch.jsx";
 
 export default function Header({ weatherData, handleOpenAddGarmentModal }) {
   // current date
@@ -19,6 +20,7 @@ export default function Header({ weatherData, handleOpenAddGarmentModal }) {
       </time>
 
       {/* right side */}
+      <ToggleSwitch />
       <button
         className="header__add-clothes-btn"
         onClick={handleOpenAddGarmentModal}
