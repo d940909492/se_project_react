@@ -2,6 +2,7 @@ import logo from "../../assets/Logo.svg";
 import avatar from "../../assets/avatar.svg";
 import "./Header.css";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch.jsx";
+import { Link } from "react-router-dom";
 
 export default function Header({ weatherData, handleOpenAddGarmentModal }) {
   // current date
@@ -14,7 +15,10 @@ export default function Header({ weatherData, handleOpenAddGarmentModal }) {
   return (
     <header className="header">
       {/* left side */}
-      <img src={logo} alt="WTWR logo" className="header__logo" />
+      <Link to="/" className="header__link">
+        <img src={logo} alt="WTWR logo" className="header__logo" />
+      </Link>
+
       <time className="header__datetime" dateTime={currentDate.toISOString()}>
         {formattedDate}, {weatherData.name}
       </time>
@@ -27,8 +31,12 @@ export default function Header({ weatherData, handleOpenAddGarmentModal }) {
       >
         + Add clothes
       </button>
-      <p className="header__username">Terrence Tegegne</p>
-      <img className="header__avatar" src={avatar} alt="User avatar" />
+      <Link to="/profile" className="header__link">
+        <p className="header__username">Terrence Tegegne</p>
+      </Link>
+      <Link to="/profile" className="header__link">
+        <img className="header__avatar" src={avatar} alt="User avatar" />
+      </Link>
     </header>
   );
 }

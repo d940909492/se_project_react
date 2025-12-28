@@ -4,16 +4,19 @@ import WeatherFilter from "../WeatherType/Weathertype.jsx";
 import ItemCard from "../ItemCard/ItemCard.jsx";
 import { useContext } from "react";
 import currentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
+import { useOutletContext } from "react-router-dom";
 
-export default function Main({
-  weatherData,
-  clothingItems,
-  handleOpenModal,
-  handleCloseModal,
-  getWeatherCondition,
-  selectedWeatherType,
-  setSelectedWeatherType,
-}) {
+export default function Main() {
+  const {
+    weatherData,
+    clothingItems,
+    handleOpenModal,
+    handleCloseModal,
+    getWeatherCondition,
+    selectedWeatherType,
+    setSelectedWeatherType,
+  } = useOutletContext();
+
   const { currentTemperatureUnit } = useContext(currentTemperatureUnitContext);
 
   const currentTemp = weatherData.temp[currentTemperatureUnit];

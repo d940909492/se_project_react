@@ -9,11 +9,12 @@ export default function WeatherCard({ weatherData }) {
   const now = Date.now() / 1000;
   const isDay = now >= weatherData.sunrise && now < weatherData.sunset;
   const timeOfDay = isDay ? "day" : "night";
-  const background = weatherImages[weatherData.weatherType]?.[timeOfDay];
+  const background =
+    weatherImages[weatherData.weatherType]?.[timeOfDay] || weatherImages[0];
 
   return (
     <section className="weathercard">
-      <img src={background} alt="cloudy day" className="weathercard__image" />
+      <img src={background} alt="weather card" className="weathercard__image" />
       <p className="weathercard__temp">
         {weatherData.temp[currentTemperatureUnit]}°{currentTemperatureUnit}
       </p>

@@ -5,6 +5,7 @@ export default function ModalWithForm({
   isOpen,
   handleClosenGarmentModal,
   handleSubmit,
+  children,
 }) {
   function handleCloseGarmentBtn() {
     handleClosenGarmentModal();
@@ -22,47 +23,7 @@ export default function ModalWithForm({
         />
 
         <form onSubmit={handleSubmit} className="modal__form">
-          <label className="modal__label">
-            Name
-            <input
-              type="text"
-              className="modal__input"
-              placeholder="Name"
-              required
-            />
-          </label>
-
-          <label className="modal__label">
-            Image
-            <input
-              type="url"
-              className="modal__input"
-              placeholder="Image URL"
-              required
-            />
-          </label>
-
-          <fieldset className="modal__fieldset">
-            <legend className="modal__selection">
-              Select the weather type:
-            </legend>
-
-            <label className="modal__radio-label">
-              <input type="radio" name="weather" value="hot" required />
-              Hot
-            </label>
-
-            <label className="modal__radio-label">
-              <input type="radio" name="weather" value="warm" />
-              Warm
-            </label>
-
-            <label className="modal__radio-label">
-              <input type="radio" name="weather" value="cold" />
-              Cold
-            </label>
-          </fieldset>
-
+          {children}
           <button type="submit" className="modal__submit-button">
             <span className="modal__submit-button_text">Add garment</span>
           </button>
