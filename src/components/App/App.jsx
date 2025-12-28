@@ -1,20 +1,24 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import Header from "../Header/Header.jsx";
 import Footer from "../Footer/Footer.jsx";
 import ItemModal from "../ItemModal/ItemModal.jsx";
 import AddItemModal from "../AddItemModal/AddItemModal.jsx";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal.jsx";
+import Main from "../Main/Main.jsx";
+import Profile from "../Profile/Profile.jsx";
 
 import { defaultClothingItems } from "../../utils/DefaultClothingItems.js";
 import { getWeatherData, getWeatherCondition } from "../../utils/weatherApi.js";
 import { getItems, addItem, deleteItem } from "../../utils/api.js";
 
-import currentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext.js";
+import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext.js";
 
 function App() {
+  const location = useLocation();
+
   const [clothingItems, setClothingItems] = useState(defaultClothingItems);
   const [activeModal, setActiveModal] = useState("");
   const [selectCard, setSelectCard] = useState({});
@@ -35,7 +39,7 @@ function App() {
     setActiveModal("garment__modal");
   }
 
-  function handleClosenGarmentModal() {
+  function handleCloseGarmentModal() {
     setActiveModal("");
   }
 
@@ -47,57 +51,38 @@ function App() {
   function handleAddItem(newItem) {
     addItem(newItem)
       .then((data) => {
-        console.log("after additem, data: ", data);
         setClothingItems([data, ...clothingItems]);
       })
-      .catch((err) => {
-        console.error("Delete failed:", err);
-      });
-    console.log("clothing items: ", clothingItems);
-    handleClosenGarmentModal();
+      .catch(console.error);
+
+    handleCloseGarmentModal();
   }
 
   function handleDeleteItem(item) {
     deleteItem(item._id)
       .then(() => {
-        const newClothingItems = clothingItems.filter((Item) => {
-          return Item._id !== item._id;
-        });
-        setClothingItems(newClothingItems);
-        handleClosenGarmentModal();
-        console.log("selected item has been deleted");
+        setClothingItems(clothingItems.filter((i) => i._id !== item._id));
+        handleCloseModal();
       })
-      .catch((err) => {
-        console.error("Delete failed:", err);
-      });
+      .catch(console.error);
   }
 
   const handleToggleSwitchChange = () => {
-    currentTemperatureUnit === "F"
-      ? setCurrentTemperatureUnit("C")
-      : setCurrentTemperatureUnit("F");
+    setCurrentTemperatureUnit((prev) => (prev === "F" ? "C" : "F"));
   };
 
   useEffect(() => {
-    getWeatherData()
-      .then((data) => {
-        setWeatherData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getWeatherData().then(setWeatherData).catch(console.error);
   }, []);
 
   useEffect(() => {
     getItems()
-      .then((items) => {
-        setClothingItems(items.reverse());
-      })
+      .then((items) => setClothingItems(items.reverse()))
       .catch(console.error);
   }, []);
 
   return (
-    <currentTemperatureUnitContext.Provider
+    <CurrentTemperatureUnitContext.Provider
       value={{
         currentTemperatureUnit,
         handleToggleSwitchChange,
@@ -108,30 +93,38 @@ function App() {
           weatherData={weatherData}
           handleOpenAddGarmentModal={handleOpenAddGarmentModal}
         />
-        <Outlet
-          context={{
-            weatherData,
-            clothingItems,
-            handleOpenModal,
-            handleCloseModal,
-            getWeatherCondition,
-            selectedWeatherType,
-            setSelectedWeatherType,
-            handleOpenAddGarmentModal,
-          }}
-        />
+
+        {location.pathname === "/" && (
+          <Main
+            weatherData={weatherData}
+            clothingItems={clothingItems}
+            handleOpenModal={handleOpenModal}
+            getWeatherCondition={getWeatherCondition}
+            selectedWeatherType={selectedWeatherType}
+            setSelectedWeatherType={setSelectedWeatherType}
+            handleOpenAddGarmentModal={handleOpenAddGarmentModal}
+          />
+        )}
+
+        {location.pathname === "/profile" && (
+          <Profile clothingItems={clothingItems} />
+        )}
+
         <Footer />
+
         <ItemModal
           isOpen={activeModal === "modal__item"}
           data={selectCard}
           handleCloseModal={handleCloseModal}
           openConfirmationModal={openConfirmationModal}
         />
+
         <AddItemModal
           isOpen={activeModal === "garment__modal"}
           onAddItem={handleAddItem}
-          onCloseModal={handleClosenGarmentModal}
+          onCloseModal={handleCloseGarmentModal}
         />
+
         <ConfirmationModal
           data={selectCard}
           isOpen={activeModal === "confirm-delete"}
@@ -139,7 +132,7 @@ function App() {
           onConfirm={handleDeleteItem}
         />
       </div>
-    </currentTemperatureUnitContext.Provider>
+    </CurrentTemperatureUnitContext.Provider>
   );
 }
 
