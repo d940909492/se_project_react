@@ -22,10 +22,6 @@ It's a simple site that can show you what clothes to wear based on the temperatu
 <br />
 
 
-## Project Pitch Video
- 1. React Stage  - Check out [this video](https://www.loom.com/share/1ae28aa9d68344be91fb812222d0a0cb), where I describe my 
- project and some challenges I faced while building it.
-<br />
 <br />
 <br />
 
