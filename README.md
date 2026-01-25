@@ -19,17 +19,8 @@ It's a simple site that can show you what clothes to wear based on the temperatu
 1. [Heres Base Design in Figma](https://www.figma.com/design/yO9ZRT6qKNXfKyHNJyhVMe/SE-Fulltime-Sprint-10-Project--WTWR?node-id=311-433&p=f&t=Dknxk7wuhONHYwvv-0)
 2. [Next step on figma](https://www.figma.com/design/dQLJwEKasIdspciJAJrCaf/Sprint-11_-WTWR?node-id=311-433&p=f&t=VBKio5qDWBIb6qGH-0)
 <br />
-<br />
 
-
-## Project Pitch Video
- 1. React Stage  - Check out [this video](https://www.loom.com/share/1ae28aa9d68344be91fb812222d0a0cb), where I describe my 
- project and some challenges I faced while building it.
-<br />
-<br />
-<br />
-
-Currently, two official plugins are available:
+### Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
