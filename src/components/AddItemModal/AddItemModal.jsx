@@ -3,30 +3,37 @@ import { useForm } from "../../hooks/useForm";
 import "../ItemModal/ItemModal.css";
 import "../ModalWithForm/ModalWithForm.css";
 
+const initialValues = {
+  name: "",
+  imageUrl: "",
+  weather: "",
+};
+
 const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
-  const { values, handleChange, setValues } = useForm({
-    name: "",
-    imageUrl: "",
-    weather: "",
-  });
+  const { values, handleChange, setValues } = useForm(initialValues);
 
-  function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    onAddItem(values);
 
-    setValues({
-      name: "",
-      imageUrl: "",
-      weather: "",
-    });
-  }
+    Promise.resolve(onAddItem(values))
+      .then(() => {
+        setValues(initialValues);
+      })
+      .catch(console.error);
+  };
+
+  const handleClose = () => {
+    onCloseModal();
+    setValues(initialValues);
+  };
 
   return (
     <ModalWithForm
+      title="New garment"
+      buttonText="Add garment"
       isOpen={isOpen}
-      handleClosenGarmentModal={onCloseModal}
-      handleSubmit={handleSubmit}
-      name="add-garment-form"
+      onClose={handleClose}
+      onSubmit={handleSubmit}
     >
       <label className="modal__label">
         Name

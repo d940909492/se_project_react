@@ -13,6 +13,8 @@ export default function Main({
   getWeatherCondition,
   selectedWeatherType,
   setSelectedWeatherType,
+  isLoggedIn,
+  onCardLike,
 }) {
   const { currentTemperatureUnit } = useContext(currentTemperatureUnitContext);
 
@@ -47,6 +49,8 @@ export default function Main({
             key={card._id}
             onCardClick={handleOpenModal}
             onCloseBtnClick={handleCloseModal}
+            onCardLike={onCardLike}
+            isLoggedIn={isLoggedIn}
           />
         ))}
       </ul>
