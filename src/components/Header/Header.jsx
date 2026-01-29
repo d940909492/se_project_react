@@ -20,11 +20,8 @@ export default function Header({
     day: "numeric",
   });
 
-  const firstLetter = (currentUser?.data.name || "?")
-    .trim()
-    .charAt(0)
-    .toUpperCase();
-  const hasAvatar = Boolean(currentUser?.data.avatar);
+  const firstLetter = (currentUser?.name || "?").trim().charAt(0).toUpperCase();
+  const hasAvatar = Boolean(currentUser?.avatar);
 
   return (
     <header className="header">
@@ -48,16 +45,14 @@ export default function Header({
           </button>
 
           <Link to="/profile" className="header__link">
-            <p className="header__username">
-              {currentUser?.data.name || "User"}
-            </p>
+            <p className="header__username">{currentUser?.name || "User"}</p>
           </Link>
 
           <Link to="/profile" className="header__link">
             {hasAvatar ? (
               <img
                 className="header__avatar"
-                src={currentUser.data.avatar}
+                src={currentUser.avatar}
                 alt="User avatar"
               />
             ) : (

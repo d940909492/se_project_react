@@ -24,7 +24,7 @@ export default function ItemModal({
     return null;
   }, [data]);
 
-  const currentUserId = currentUser?.data._id || null;
+  const currentUserId = currentUser?._id || null;
 
   const isOwn = Boolean(ownerId && currentUserId && ownerId === currentUserId);
 
@@ -48,7 +48,9 @@ export default function ItemModal({
           type="button"
           className="modal__close-button"
           onClick={handleCloseBtn}
-        ></button>
+        >
+          x
+        </button>
 
         <img src={data.imageUrl} alt={data.name} className="modal__image" />
 

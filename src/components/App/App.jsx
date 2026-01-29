@@ -26,7 +26,7 @@ import {
   removeCardLike,
 } from "../../utils/api.js";
 
-import { signup, signin, checkToken } from "../../utils/auth.js";
+import { signup, signin, checkSession, signout } from "../../utils/auth.js";
 
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext.js";
 import CurrentUserContext from "../../contexts/CurrentUserContext.js";
@@ -90,13 +90,10 @@ function App() {
   function handleAddItem(newItem) {
     if (!isLoggedIn) return;
 
-    const token = localStorage.getItem("jwt");
-    if (!token) return;
-
-    addItem(newItem, token)
+    addItem(newItem)
       .then((res) => {
-        const newItem = res.data || res;
-        setClothingItems((prev) => [newItem, ...prev]);
+        const createdItem = res.data || res;
+        setClothingItems((prev) => [createdItem, ...prev]);
       })
       .catch(console.error)
       .finally(() => handleCloseGarmentModal());
@@ -105,12 +102,9 @@ function App() {
   function handleDeleteItem(item) {
     if (!isLoggedIn) return;
 
-    const token = localStorage.getItem("jwt");
-    if (!token) return;
-
-    deleteItem(item._id, token)
+    deleteItem(item._id)
       .then(() => {
-        setClothingItems(clothingItems.filter((i) => i._id !== item._id));
+        setClothingItems((prev) => prev.filter((i) => i._id !== item._id));
         handleCloseModal();
       })
       .catch(console.error);
@@ -121,37 +115,20 @@ function App() {
   };
 
   function handleLogin({ email, password }) {
-    signin({ email, password })
-      .then((res) => {
-        if (!res?.token) {
-          return Promise.reject("No token returned from /signin");
-        }
-
-        localStorage.setItem("jwt", res.token);
-        return checkToken(res.token);
-      })
+    return signin({ email, password })
+      .then(() => checkSession())
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
         setActiveModal("");
-      })
-      .catch(console.error);
+        return user;
+      });
   }
 
   function handleRegister({ name, avatar, email, password }) {
     signup({ name, avatar, email, password })
-      .then(() => {
-        return signin({ email, password });
-      })
-      .then((res) => {
-        if (!res?.token) {
-          return Promise.reject("No token returned from /signin after signup");
-        }
-
-        localStorage.setItem("jwt", res.token);
-
-        return checkToken(res.token);
-      })
+      .then(() => signin({ email, password }))
+      .then(() => checkSession())
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
@@ -161,18 +138,21 @@ function App() {
   }
 
   function handleSignOut() {
-    localStorage.removeItem("jwt");
-    setIsLoggedIn(false);
-    setCurrentUser(null);
-    setActiveModal("");
-    navigate("/");
+    Promise.resolve()
+      .then(() => signout())
+      .catch(() => {})
+      .finally(() => {
+        setIsLoggedIn(false);
+        setCurrentUser(null);
+        setActiveModal("");
+        navigate("/");
+      });
   }
 
   function handleUpdateUser(values) {
-    const token = localStorage.getItem("jwt");
-    if (!token) return;
+    if (!isLoggedIn) return;
 
-    updateUser(values, token)
+    updateUser(values)
       .then((user) => {
         setCurrentUser(user);
         setActiveModal("");
@@ -186,12 +166,7 @@ function App() {
       return;
     }
 
-    const token = localStorage.getItem("jwt");
-    if (!token) return;
-
-    const request = !isLiked
-      ? addCardLike(id, token)
-      : removeCardLike(id, token);
+    const request = !isLiked ? addCardLike(id) : removeCardLike(id);
 
     request
       .then((res) => {
@@ -214,17 +189,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (!token) return;
-
-    checkToken(token)
+    checkSession()
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
       })
-      .catch((err) => {
-        console.error(err);
-        localStorage.removeItem("jwt");
+      .catch(() => {
         setCurrentUser(null);
         setIsLoggedIn(false);
       });

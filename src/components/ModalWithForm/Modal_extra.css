@@ -42,3 +42,13 @@
   text-decoration: underline;
   padding: 0;
 }
+
+.modal__input_error {
+  border: 1px solid #ff4d4f;
+}
+
+.modal__error {
+  margin: 8px 0 0;
+  font-size: 24px;
+  color: #ff4d4f;
+}

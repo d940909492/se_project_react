@@ -5,11 +5,8 @@ import CurrentUserContext from "../../contexts/CurrentUserContext.js";
 export default function SideBar({ onEditProfile, onSignOut }) {
   const currentUser = useContext(CurrentUserContext);
 
-  const firstLetter = (currentUser?.data.name || "?")
-    .trim()
-    .charAt(0)
-    .toUpperCase();
-  const hasAvatar = Boolean(currentUser?.data.avatar);
+  const firstLetter = (currentUser?.name || "?").trim().charAt(0).toUpperCase();
+  const hasAvatar = Boolean(currentUser?.avatar);
 
   return (
     <aside className="sideBar">
@@ -17,14 +14,14 @@ export default function SideBar({ onEditProfile, onSignOut }) {
         {hasAvatar ? (
           <img
             className="sidebar__avatar"
-            src={currentUser.data.avatar}
+            src={currentUser.avatar}
             alt="User avatar"
           />
         ) : (
           <div className="sidebar__avatar-placeholder">{firstLetter}</div>
         )}
 
-        <p className="sideBar__username">{currentUser?.data.name || "User"}</p>
+        <p className="sideBar__username">{currentUser?.name || "User"}</p>
       </div>
 
       <div className="sideBar__actions">

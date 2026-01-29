@@ -5,7 +5,9 @@ function checkResponse(res, message) {
 }
 
 export function getItems() {
-  return fetch(`${baseUrl}/items`).then((res) => {
+  return fetch(`${baseUrl}/items`, {
+    credentials: "include",
+  }).then((res) => {
     return res.ok
       ? res.json()
       : Promise.reject(
@@ -14,12 +16,12 @@ export function getItems() {
   });
 }
 
-export function addItem({ name, imageUrl, weather }, token) {
+export function addItem({ name, imageUrl, weather }) {
   return fetch(`${baseUrl}/items`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     body: JSON.stringify({ name, imageUrl, weather }),
   }).then((res) => {
@@ -29,12 +31,10 @@ export function addItem({ name, imageUrl, weather }, token) {
   });
 }
 
-export function deleteItem(id, token) {
+export function deleteItem(id) {
   return fetch(`${baseUrl}/items/${id}`, {
     method: "DELETE",
-    headers: {
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
+    credentials: "include",
   }).then((res) => {
     return res.ok
       ? res.json()
@@ -42,33 +42,33 @@ export function deleteItem(id, token) {
   });
 }
 
-export function updateUser({ name, avatar }, token) {
+export function updateUser({ name, avatar }) {
   return fetch(`${baseUrl}/users/me`, {
     method: "PATCH",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({ name, avatar }),
   }).then((res) => checkResponse(res, "Error when updating user"));
 }
 
-export function addCardLike(id, token) {
+export function addCardLike(id) {
   return fetch(`${baseUrl}/items/${id}/likes`, {
     method: "PUT",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
     },
   }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 }
 
-export function removeCardLike(id, token) {
+export function removeCardLike(id) {
   return fetch(`${baseUrl}/items/${id}/likes`, {
     method: "DELETE",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
     },
   }).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 }

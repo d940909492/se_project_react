@@ -7,6 +7,7 @@ function checkResponse(res, message) {
 export function signup({ name, avatar, email, password }) {
   return fetch(`${baseUrl}/signup`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -17,6 +18,7 @@ export function signup({ name, avatar, email, password }) {
 export function signin({ email, password }) {
   return fetch(`${baseUrl}/signin`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
@@ -24,12 +26,16 @@ export function signin({ email, password }) {
   }).then((res) => checkResponse(res, "Signin error"));
 }
 
-export function checkToken(token) {
+export function checkSession() {
   return fetch(`${baseUrl}/users/me`, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkResponse(res, "Token check error"));
+    credentials: "include",
+  }).then((res) => checkResponse(res, "Session check error"));
+}
+
+export function signout() {
+  return fetch(`${baseUrl}/signout`, {
+    method: "POST",
+    credentials: "include",
+  }).then((res) => checkResponse(res, "Signout error"));
 }

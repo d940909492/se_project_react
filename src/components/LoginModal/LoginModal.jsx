@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import ModalWithForm from "../ModalWithForm/ModalWithForm.jsx";
 import { useForm } from "../../hooks/useForm";
 import "../ItemModal/ItemModal.css";
@@ -10,12 +11,35 @@ export default function LoginModal({
   onLogin,
   onSwitchToRegister,
 }) {
-  const { values, handleChange } = useForm({ email: "", password: "" });
+  const { values, handleChange, setValues } = useForm({
+    email: "",
+    password: "",
+  });
+
+  const [authError, setAuthError] = useState("");
+
+  useEffect(() => {
+    if (isOpen) {
+      setAuthError("");
+    }
+  }, [isOpen, setValues]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    onLogin(values);
+    setAuthError("");
+
+    Promise.resolve(onLogin(values)).catch((err) => {
+      const msg = String(err);
+
+      if (msg.includes("401")) {
+        setAuthError("Incorrect email or password");
+      } else {
+        setAuthError("Something went wrong. Please try again.");
+      }
+    });
   }
+
+  const inputClassName = `modal__input ${authError ? "modal__input_error" : ""}`;
 
   return (
     <ModalWithForm
@@ -40,12 +64,15 @@ export default function LoginModal({
       <label className="modal__label">
         Email
         <input
-          className="modal__input"
+          className={inputClassName}
           type="email"
           name="email"
           placeholder="Email"
           value={values.email}
-          onChange={handleChange}
+          onChange={(e) => {
+            setAuthError("");
+            handleChange(e);
+          }}
           required
         />
       </label>
@@ -53,15 +80,20 @@ export default function LoginModal({
       <label className="modal__label">
         Password
         <input
-          className="modal__input"
+          className={inputClassName}
           type="password"
           name="password"
           placeholder="Password"
           value={values.password}
-          onChange={handleChange}
+          onChange={(e) => {
+            setAuthError("");
+            handleChange(e);
+          }}
           required
         />
       </label>
+
+      {authError && <p className="modal__error">{authError}</p>}
     </ModalWithForm>
   );
 }
