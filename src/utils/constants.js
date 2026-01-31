@@ -3,7 +3,10 @@ export const coordinates = {
   long: "-74.002200258111",
 };
 
-export const baseUrl = "http://localhost:3001";
+export const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://api.weather-clothing.jumpingcrab.com"
+    : "http://localhost:3001";
 
 export const apiKey = "9e4989fae9c41daa469f5350b530602e";
 

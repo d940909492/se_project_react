@@ -3,12 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://weather-clothing.jumpingcrab.com",
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "server" : "json-server --watch db.json --id _id --port 3001"
+    "server": "json-server --watch db.json --id _id --port 3001",
+    "deploy": "npm run build && scp -r ./dist/* dong5455993@weather-clothing.jumpingcrab.com:/home/dong5455993/se_project_react"
   },
   "dependencies": {
     "react": "^18.3.1",

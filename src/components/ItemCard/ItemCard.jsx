@@ -49,14 +49,14 @@ export default function ItemCard({
     <div className="card" onClick={handleOpenCard}>
       <h2 className="card__title">{data.name}</h2>
 
+      <img src={data.imageUrl} alt={data.name} className="card__image" />
       <button
         type="button"
         className={itemLikeButtonClassName}
         onClick={handleLikeClick}
+        disabled={!isLoggedIn}
         aria-label={isLiked ? "Remove like" : "Like"}
       />
-
-      <img src={data.imageUrl} alt={data.name} className="card__image" />
     </div>
   );
 }
